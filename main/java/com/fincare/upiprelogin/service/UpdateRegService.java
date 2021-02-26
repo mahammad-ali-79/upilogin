@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
 import com.fincare.upiprelogin.model.UpdateReg;
 
+@Service
 public class UpdateRegService {
 
 	

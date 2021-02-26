@@ -1,26 +1,45 @@
 package com.fincare.upiprelogin.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fincare.upiprelogin.model.Parameters;
-import com.fincare.upiprelogin.model.Response;
-import com.fincare.upiprelogin.model.ResponseEntity;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
+@Service
 public class ResponseService {
 	
 	
-	public String getResponse(Response response) {
+	public String getResponse(String response) {
 		
-		Map<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json"); 
-		 
-		 
-
 		
+		ObjectMapper om= new ObjectMapper();
+		try {
+		JsonNode jn=om.readValue(response,JsonNode.class);
+		if(jn.isObject()) {
+			ObjectNode on=om.convertValue(om,ObjectNode.class);
+			if(on.has("serv")) {
+				System.out.println(on.get("serv"));
+			}
+		}
+			
+		} catch (JsonMappingException e) {
+			
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+		
+			e.printStackTrace();
+		}
+		
+		          
 		return "";
 	}
+	
+	
 
 }
