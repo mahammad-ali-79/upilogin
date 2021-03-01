@@ -22,7 +22,7 @@ public class ForgotPasswordController {
 	@PostMapping("/forgotPassword")
 	public String getForgotPassword( @Valid @RequestBody ForgotPassword forgotpassword){
 		
-		String response=forgotPasswordService.getforgotPassword(forgotpassword);
+		String response=forgotPasswordService.getForgotPassword(forgotpassword);
 		
 		return response;
 		

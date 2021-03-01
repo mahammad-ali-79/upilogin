@@ -77,5 +77,16 @@ public class MobileLogin {
 	@NotNull(message="Should not be null value")
 	@NotBlank(message="Should be valid dt value")
 	private String dt;
+	
+	@NotNull(message="Should not be null value")
+	@NotBlank(message="Should be valid dt value")
+	private String password;
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 
 }
