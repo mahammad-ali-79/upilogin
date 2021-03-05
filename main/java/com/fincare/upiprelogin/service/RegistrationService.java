@@ -133,16 +133,30 @@ public class RegistrationService {
 
 		common.setRequest(request);
 		System.out.println(common.toString());
+
+//		String resp="{\\\"serv\\\": \\\"Registration\\\",\\\"op\\\": [ {\r\n"
+//				+ "			            \\\"k\\\": \\\"Success\\\",\r\n"
+//				+ "			            \\\"v\\\": \\\"999\\\"\r\n"
+//				+ "			        },\r\n"
+//				+ "			        {\r\n"
+//				+ "			            \\\"k\\\": \\\"rDt\\\",\r\n"
+//				+ "			            \\\"v\\\": \\\"vb4dwevYMB28UQnE38oGI6nIFwXtdSssD5SRlJfxScsk2Au5dmNoQjDoArCeBDce\\\"\r\n"
+//				+ "			        }\r\n"
+//				+ "			    ],\r\n"
+//				+ "			    \\\"error\\\": 0,\r\n"
+//				+ "			    \\\"errors\\\": []}";
 		String response = upiProxy.getResponse(headers, common);
 		 String finalResponse=responseService.getResponse(response);
 		 String xForwardedForHeader = clientIp.getHeader("X-Forwarded-For");
 		    if (xForwardedForHeader == null) {
 		    	System.out.println(clientIp.getRemoteAddr().toString());
 		    	 System.out.println(clientIp.getRemoteAddr().toString());
+		    	 System.out.println(finalResponse);
 		    	 
 		        return clientIp.getRemoteAddr();
 		        
 		    } else {
+		    	 System.out.println(finalResponse);
 		       System.out.println("IPADDRESS");
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
