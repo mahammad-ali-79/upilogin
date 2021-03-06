@@ -12,14 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
 import com.fincare.upiprelogin.model.Parameters;
-import com.fincare.upiprelogin.model.RegPoll;
+import com.fincare.upiprelogin.model.PendingCollect;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class RegPollService {
+public class PendingCollectService {
 	
 	
-
 	@Autowired
 	private UpiProxy upiProxy;
 	@Autowired
@@ -27,38 +26,39 @@ public class RegPollService {
 	@Autowired
 	private HttpServletRequest clientIp;
 	
-	public String getRegPoll(RegPoll regPoll) {
+	
+	public String getPendingCollect(PendingCollect pendingCollect) {
 		
 		Map<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		Parameters paramsOtpToken = new Parameters();
-		paramsOtpToken.setKey("OTPToken");
-		paramsOtpToken.setValue(regPoll.getOtptoken());
-		Parameters sendEmailOtp = new Parameters();
-		sendEmailOtp.setKey("SENDEMAILOTP");
-		sendEmailOtp.setValue(regPoll.getSendemailotp());
-		Parameters dt= new Parameters();
-		dt.setKey("DT");
-		dt.setValue(regPoll.getDt());
-		Parameters appVersion= new Parameters();
-		appVersion.setKey("APPVERSION");
-		appVersion.setValue(regPoll.getAppversion());
+		headers.put("Content-Type", "application/json"); 
+		
+		Parameters paramsCustomerId = new Parameters();
+		paramsCustomerId.setKey("CUSTOMERID");
+		paramsCustomerId.setValue(pendingCollect.getCustomerid());
+		Parameters paramsSessionId = new Parameters();
+		paramsSessionId.setKey("SESSIONID");
+		paramsSessionId.setValue(pendingCollect.getSessionid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(pendingCollect.getDt());
+		
 		
 		ArrayList<Parameters> param = new ArrayList<Parameters>();
-		param.add(paramsOtpToken);
-		param.add(sendEmailOtp);
-		param.add(dt);
-		param.add(appVersion);
 		
+		param.add(paramsSessionId);
+		param.add(paramsCustomerId);
+		param.add(paramsDt);
+		
+		Common common = new Common();
+
 		Request request = new Request();
 		request.setParams(param);
 		request.setDeviceId(0);
 		request.setInitiatorId("");
-		request.setService("RegPoll");
+		request.setService("PendingCollect");
 
 		
-		Common common = new Common();
-
+		
 		common.setRequest(request);
 		System.out.println(common.toString());
 		String response = upiProxy.getResponse(headers, common);
@@ -74,7 +74,6 @@ public class RegPollService {
 		       System.out.println("IPADDRESS");
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
-	 
+		
 	}
-
 }

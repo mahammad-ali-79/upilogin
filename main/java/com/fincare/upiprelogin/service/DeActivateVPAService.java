@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
+import com.fincare.upiprelogin.model.DeactivateVPA;
 import com.fincare.upiprelogin.model.Parameters;
-import com.fincare.upiprelogin.model.RegPoll;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class RegPollService {
-	
+public class DeActivateVPAService {
 	
 
 	@Autowired
@@ -27,38 +26,41 @@ public class RegPollService {
 	@Autowired
 	private HttpServletRequest clientIp;
 	
-	public String getRegPoll(RegPoll regPoll) {
+	public String getDeactivateVPA(DeactivateVPA deactivateVPA) {
+		
 		
 		Map<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		Parameters paramsOtpToken = new Parameters();
-		paramsOtpToken.setKey("OTPToken");
-		paramsOtpToken.setValue(regPoll.getOtptoken());
-		Parameters sendEmailOtp = new Parameters();
-		sendEmailOtp.setKey("SENDEMAILOTP");
-		sendEmailOtp.setValue(regPoll.getSendemailotp());
-		Parameters dt= new Parameters();
-		dt.setKey("DT");
-		dt.setValue(regPoll.getDt());
-		Parameters appVersion= new Parameters();
-		appVersion.setKey("APPVERSION");
-		appVersion.setValue(regPoll.getAppversion());
+		headers.put("Content-Type", "application/json"); 
+		Parameters paramsCustomerId = new Parameters();
+		paramsCustomerId.setKey("CUSTOMERID");
+		paramsCustomerId.setValue(deactivateVPA.getCustomerid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(deactivateVPA.getDt());
+		Parameters paramsVPAID = new Parameters();
+		paramsVPAID.setKey("VPAID");
+		paramsVPAID.setValue(deactivateVPA.getVpaid());
+		Parameters paramsSessionId = new Parameters();
+		paramsSessionId.setKey("SESSIONID");
+		paramsSessionId.setValue(deactivateVPA.getSessionid());
 		
 		ArrayList<Parameters> param = new ArrayList<Parameters>();
-		param.add(paramsOtpToken);
-		param.add(sendEmailOtp);
-		param.add(dt);
-		param.add(appVersion);
 		
+		param.add(paramsSessionId);
+		param.add(paramsCustomerId);
+		param.add(paramsVPAID);
+		param.add(paramsDt);
+		
+		Common common = new Common();
+
 		Request request = new Request();
 		request.setParams(param);
 		request.setDeviceId(0);
 		request.setInitiatorId("");
-		request.setService("RegPoll");
+		request.setService("DeactivateVPA");
 
 		
-		Common common = new Common();
-
+		
 		common.setRequest(request);
 		System.out.println(common.toString());
 		String response = upiProxy.getResponse(headers, common);
@@ -74,7 +76,7 @@ public class RegPollService {
 		       System.out.println("IPADDRESS");
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
-	 
+		
 	}
 
 }

@@ -11,15 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
+import com.fincare.upiprelogin.model.GetMasterData;
 import com.fincare.upiprelogin.model.Parameters;
-import com.fincare.upiprelogin.model.RegPoll;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class RegPollService {
+public class GetMasterDataService {
 	
-	
-
 	@Autowired
 	private UpiProxy upiProxy;
 	@Autowired
@@ -27,38 +25,36 @@ public class RegPollService {
 	@Autowired
 	private HttpServletRequest clientIp;
 	
-	public String getRegPoll(RegPoll regPoll) {
+	
+	public String getMasterData(GetMasterData getMasterData) {
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
-		Parameters paramsOtpToken = new Parameters();
-		paramsOtpToken.setKey("OTPToken");
-		paramsOtpToken.setValue(regPoll.getOtptoken());
-		Parameters sendEmailOtp = new Parameters();
-		sendEmailOtp.setKey("SENDEMAILOTP");
-		sendEmailOtp.setValue(regPoll.getSendemailotp());
-		Parameters dt= new Parameters();
-		dt.setKey("DT");
-		dt.setValue(regPoll.getDt());
-		Parameters appVersion= new Parameters();
-		appVersion.setKey("APPVERSION");
-		appVersion.setValue(regPoll.getAppversion());
-		
+		Parameters paramsMType = new Parameters();
+		paramsMType.setKey("MTYPE");
+		paramsMType.setValue(getMasterData.getMtype());
+		Parameters paramsCustomerId = new Parameters();
+		paramsCustomerId.setKey("CUSTOMERID");
+		paramsCustomerId.setValue(getMasterData.getCustomerid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(getMasterData.getDt());
+		Parameters paramsSessionId = new Parameters();
+		paramsSessionId.setKey("SESSIONID");
+		paramsSessionId.setValue(getMasterData.getSessionid());
 		ArrayList<Parameters> param = new ArrayList<Parameters>();
-		param.add(paramsOtpToken);
-		param.add(sendEmailOtp);
-		param.add(dt);
-		param.add(appVersion);
 		
+		
+		Common common = new Common();
+
 		Request request = new Request();
 		request.setParams(param);
 		request.setDeviceId(0);
 		request.setInitiatorId("");
-		request.setService("RegPoll");
+		request.setService("GetMasterData");
 
 		
-		Common common = new Common();
-
+		
 		common.setRequest(request);
 		System.out.println(common.toString());
 		String response = upiProxy.getResponse(headers, common);
@@ -74,7 +70,6 @@ public class RegPollService {
 		       System.out.println("IPADDRESS");
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
-	 
 	}
 
 }

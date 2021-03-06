@@ -10,16 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fincare.upiprelogin.model.ChangePassword;
 import com.fincare.upiprelogin.model.Common;
 import com.fincare.upiprelogin.model.Parameters;
-import com.fincare.upiprelogin.model.RegPoll;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class RegPollService {
+public class ChangePasswordService {
 	
-	
-
 	@Autowired
 	private UpiProxy upiProxy;
 	@Autowired
@@ -27,34 +25,42 @@ public class RegPollService {
 	@Autowired
 	private HttpServletRequest clientIp;
 	
-	public String getRegPoll(RegPoll regPoll) {
+	
+	private String getChangePassword(ChangePassword changePassword) {
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
-		Parameters paramsOtpToken = new Parameters();
-		paramsOtpToken.setKey("OTPToken");
-		paramsOtpToken.setValue(regPoll.getOtptoken());
-		Parameters sendEmailOtp = new Parameters();
-		sendEmailOtp.setKey("SENDEMAILOTP");
-		sendEmailOtp.setValue(regPoll.getSendemailotp());
-		Parameters dt= new Parameters();
-		dt.setKey("DT");
-		dt.setValue(regPoll.getDt());
-		Parameters appVersion= new Parameters();
-		appVersion.setKey("APPVERSION");
-		appVersion.setValue(regPoll.getAppversion());
+		
+		Parameters paramsCustomerId = new Parameters();
+		paramsCustomerId.setKey("CUSTOMERID");
+		paramsCustomerId.setValue(changePassword.getCustomerid());
+		
+		Parameters paramsOldp = new Parameters();
+		paramsOldp.setKey("OLDP");
+		paramsOldp.setValue(changePassword.getOldp());
+		Parameters paramsNewp = new Parameters();
+		paramsNewp.setKey("NEWP");
+		paramsNewp.setValue(changePassword.getNewp());
+		Parameters paramsSessionId = new Parameters();
+		paramsSessionId.setKey("SESSIONID");
+		paramsSessionId.setValue(changePassword.getSessionid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(changePassword.getDt());
 		
 		ArrayList<Parameters> param = new ArrayList<Parameters>();
-		param.add(paramsOtpToken);
-		param.add(sendEmailOtp);
-		param.add(dt);
-		param.add(appVersion);
+		
+		param.add(paramsSessionId);
+		param.add(paramsNewp);
+		param.add(paramsCustomerId);
+		param.add(paramsDt);
+		param.add(paramsOldp);
 		
 		Request request = new Request();
 		request.setParams(param);
 		request.setDeviceId(0);
 		request.setInitiatorId("");
-		request.setService("RegPoll");
+		request.setService("ChangePassword");
 
 		
 		Common common = new Common();
@@ -74,7 +80,6 @@ public class RegPollService {
 		       System.out.println("IPADDRESS");
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
-	 
 	}
 
 }
