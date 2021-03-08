@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
-import com.fincare.upiprelogin.model.DeRegister;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
+import com.fincare.upiprelogin.model.UpdateCustomerBen;
 
 @Service
-public class DeRegisterService {
+public class UpdateCustomerBenService {
+	
 	
 	@Autowired
 	private UpiProxy upiProxy;
@@ -26,24 +27,37 @@ public class DeRegisterService {
 	private HttpServletRequest clientIp;
 	
 	
-	public String getDeregister(DeRegister deRegister) {
+	public String getUpdatecustomerBen(UpdateCustomerBen updateCustomerBen) {
 		
-
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
 		Parameters paramsCustomerId = new Parameters();
 		paramsCustomerId.setKey("CUSTOMERID");
-		paramsCustomerId.setValue(deRegister.getCustomerid());
-		Parameters paramsDt = new Parameters();
-		paramsDt.setKey("DT");
-		paramsDt.setValue(deRegister.getDt());
+		paramsCustomerId.setValue(updateCustomerBen.getCustomerid());
+		Parameters paramsNickName = new Parameters();
+		paramsNickName.setKey("NICKNAME");
+		paramsNickName.setValue(updateCustomerBen.getNickname());
+		Parameters paramsLimit = new Parameters();
+		paramsLimit.setKey("LIMIT");
+		paramsLimit.setValue(updateCustomerBen.getLimit());
+		Parameters paramsBenId = new Parameters();
+		paramsBenId.setKey("BENID");
+		paramsBenId.setValue(updateCustomerBen.getBenid());
 		Parameters paramsSessionId = new Parameters();
 		paramsSessionId.setKey("SESSIONID");
-		paramsSessionId.setValue(deRegister.getSessionid());
+		paramsSessionId.setValue(updateCustomerBen.getSessionid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(updateCustomerBen.getDt());
+		
 		ArrayList<Parameters> param = new ArrayList<Parameters>();
+		
 		param.add(paramsSessionId);
+		param.add(paramsBenId);
+		param.add(paramsNickName);
 		param.add(paramsCustomerId);
 		param.add(paramsDt);
+		param.add(paramsLimit);
 		
 		Common common = new Common();
 
@@ -51,7 +65,7 @@ public class DeRegisterService {
 		request.setParams(param);
 		request.setDeviceId(0);
 		request.setInitiatorId("");
-		request.setService("DeRegister");
+		request.setService("UpdateCustomerBen");
 
 		
 		
@@ -71,8 +85,8 @@ public class DeRegisterService {
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
 		
+		
 	}
-	
 	
 
 }

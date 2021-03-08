@@ -3,31 +3,22 @@ package com.fincare.upiprelogin.model;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class DeactivateBank {
+public class GetBlockedVPAList {
 	
 	 @NotNull(message="Should be valid Value")
 	    @NotBlank(message="Should not be blank")
-	private String vpafdid;
+	private String customerid;
 	 @NotNull(message="Should be valid Value")
 	    @NotBlank(message="Should not be blank")
 	private String sessionid;
 	 @NotNull(message="Should be valid Value")
 	    @NotBlank(message="Should not be blank")
 	private String dt;
-	 @NotNull(message="Should be valid Value")
-	    @NotBlank(message="Should not be blank")
-	 private String customerid;
 	public String getCustomerid() {
 		return customerid;
 	}
 	public void setCustomerid(String customerid) {
 		this.customerid = customerid;
-	}
-	public String getVpafdid() {
-		return vpafdid;
-	}
-	public void setVpafdid(String vpafdid) {
-		this.vpafdid = vpafdid;
 	}
 	public String getSessionid() {
 		return sessionid;
@@ -41,5 +32,6 @@ public class DeactivateBank {
 	public void setDt(String dt) {
 		this.dt = dt;
 	}
+	
 
 }

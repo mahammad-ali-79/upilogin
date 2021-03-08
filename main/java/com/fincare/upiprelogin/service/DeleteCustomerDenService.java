@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
-import com.fincare.upiprelogin.model.DeRegister;
+import com.fincare.upiprelogin.model.DeleteCustomerBen;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class DeRegisterService {
+public class DeleteCustomerDenService {
+
 	
 	@Autowired
 	private UpiProxy upiProxy;
@@ -25,25 +26,30 @@ public class DeRegisterService {
 	@Autowired
 	private HttpServletRequest clientIp;
 	
-	
-	public String getDeregister(DeRegister deRegister) {
+	public String getDeleteCustomerBen(DeleteCustomerBen deleteCustomerBen) {
 		
-
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
 		Parameters paramsCustomerId = new Parameters();
 		paramsCustomerId.setKey("CUSTOMERID");
-		paramsCustomerId.setValue(deRegister.getCustomerid());
-		Parameters paramsDt = new Parameters();
-		paramsDt.setKey("DT");
-		paramsDt.setValue(deRegister.getDt());
+		paramsCustomerId.setValue(deleteCustomerBen.getCustomerid());
+		Parameters paramsBenId = new Parameters();
+		paramsBenId.setKey("BENID");
+		paramsBenId.setValue(deleteCustomerBen.getBenid());
 		Parameters paramsSessionId = new Parameters();
 		paramsSessionId.setKey("SESSIONID");
-		paramsSessionId.setValue(deRegister.getSessionid());
-		ArrayList<Parameters> param = new ArrayList<Parameters>();
+		paramsSessionId.setValue(deleteCustomerBen.getSessionid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(deleteCustomerBen.getDt());
+		
+	ArrayList<Parameters> param = new ArrayList<Parameters>();
+		
 		param.add(paramsSessionId);
+		param.add(paramsBenId);
 		param.add(paramsCustomerId);
 		param.add(paramsDt);
+		
 		
 		Common common = new Common();
 
@@ -51,7 +57,7 @@ public class DeRegisterService {
 		request.setParams(param);
 		request.setDeviceId(0);
 		request.setInitiatorId("");
-		request.setService("DeRegister");
+		request.setService("DeleteCustomerBen");
 
 		
 		
@@ -70,9 +76,5 @@ public class DeRegisterService {
 		       System.out.println("IPADDRESS");
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
-		
 	}
-	
-	
-
 }

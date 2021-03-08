@@ -7,16 +7,17 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.stereotype.Service;
 
+import com.fincare.upiprelogin.model.ChangePrimaryAc;
 import com.fincare.upiprelogin.model.Common;
-import com.fincare.upiprelogin.model.DeRegister;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class DeRegisterService {
+public class ChangePrimAcService {
+
 	
 	@Autowired
 	private UpiProxy upiProxy;
@@ -25,33 +26,43 @@ public class DeRegisterService {
 	@Autowired
 	private HttpServletRequest clientIp;
 	
-	
-	public String getDeregister(DeRegister deRegister) {
+	public String getPrimaryAcc(ChangePrimaryAc changePrimaryAc) {
 		
 
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
 		Parameters paramsCustomerId = new Parameters();
 		paramsCustomerId.setKey("CUSTOMERID");
-		paramsCustomerId.setValue(deRegister.getCustomerid());
-		Parameters paramsDt = new Parameters();
-		paramsDt.setKey("DT");
-		paramsDt.setValue(deRegister.getDt());
+		paramsCustomerId.setValue(changePrimaryAc.getCustomerid());
+		Parameters paramsVPAFd = new Parameters();
+		paramsVPAFd.setKey("VPAFD");
+		paramsVPAFd.setValue(changePrimaryAc.getVpaid());
+		Parameters paramsFdId = new Parameters();
+		paramsFdId.setKey("FDID");
+		paramsFdId.setValue(changePrimaryAc.getFdid());
 		Parameters paramsSessionId = new Parameters();
 		paramsSessionId.setKey("SESSIONID");
-		paramsSessionId.setValue(deRegister.getSessionid());
-		ArrayList<Parameters> param = new ArrayList<Parameters>();
+		paramsSessionId.setValue(changePrimaryAc.getSessionid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(changePrimaryAc.getDt());
+		
+ArrayList<Parameters> param = new ArrayList<Parameters>();
+		
 		param.add(paramsSessionId);
+		param.add(paramsVPAFd);
 		param.add(paramsCustomerId);
+		param.add(paramsFdId);
 		param.add(paramsDt);
+		
 		
 		Common common = new Common();
 
 		Request request = new Request();
 		request.setParams(param);
 		request.setDeviceId(0);
-		request.setInitiatorId("");
-		request.setService("DeRegister");
+		request.setInitiatorId(""); 
+		request.setService("ChangePrimaryAc");
 
 		
 		
@@ -73,6 +84,4 @@ public class DeRegisterService {
 		
 	}
 	
-	
-
 }

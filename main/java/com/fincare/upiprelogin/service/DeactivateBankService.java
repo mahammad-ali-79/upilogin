@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
-import com.fincare.upiprelogin.model.DeRegister;
+import com.fincare.upiprelogin.model.DeactivateBank;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class DeRegisterService {
+public class DeactivateBankService {
 	
 	@Autowired
 	private UpiProxy upiProxy;
@@ -26,32 +26,39 @@ public class DeRegisterService {
 	private HttpServletRequest clientIp;
 	
 	
-	public String getDeregister(DeRegister deRegister) {
+	public String getDeactivateBank(DeactivateBank deactivateBank) {
 		
-
+		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
 		Parameters paramsCustomerId = new Parameters();
 		paramsCustomerId.setKey("CUSTOMERID");
-		paramsCustomerId.setValue(deRegister.getCustomerid());
-		Parameters paramsDt = new Parameters();
-		paramsDt.setKey("DT");
-		paramsDt.setValue(deRegister.getDt());
+		paramsCustomerId.setValue(deactivateBank.getCustomerid());
+		Parameters paramsVPAFdId = new Parameters();
+		paramsVPAFdId.setKey("VPAFDID");
+		paramsVPAFdId.setValue(deactivateBank.getVpafdid());
 		Parameters paramsSessionId = new Parameters();
 		paramsSessionId.setKey("SESSIONID");
-		paramsSessionId.setValue(deRegister.getSessionid());
-		ArrayList<Parameters> param = new ArrayList<Parameters>();
+		paramsSessionId.setValue(deactivateBank.getSessionid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(deactivateBank.getDt());
+		
+ArrayList<Parameters> param = new ArrayList<Parameters>();
+		
 		param.add(paramsSessionId);
+		param.add(paramsVPAFdId);
 		param.add(paramsCustomerId);
 		param.add(paramsDt);
+		
 		
 		Common common = new Common();
 
 		Request request = new Request();
 		request.setParams(param);
 		request.setDeviceId(0);
-		request.setInitiatorId("");
-		request.setService("DeRegister");
+		request.setInitiatorId(""); 
+		request.setService("DeactivateBank");
 
 		
 		
@@ -72,7 +79,5 @@ public class DeRegisterService {
 		    }
 		
 	}
-	
-	
 
 }

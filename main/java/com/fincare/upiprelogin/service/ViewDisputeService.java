@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
-import com.fincare.upiprelogin.model.DeRegister;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
+import com.fincare.upiprelogin.model.ViewDisputes;
 
 @Service
-public class DeRegisterService {
+public class ViewDisputeService {
 	
 	@Autowired
 	private UpiProxy upiProxy;
@@ -26,32 +26,38 @@ public class DeRegisterService {
 	private HttpServletRequest clientIp;
 	
 	
-	public String getDeregister(DeRegister deRegister) {
+	public String getViewDispute(ViewDisputes viewDispute) {
 		
-
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
 		Parameters paramsCustomerId = new Parameters();
 		paramsCustomerId.setKey("CUSTOMERID");
-		paramsCustomerId.setValue(deRegister.getCustomerid());
-		Parameters paramsDt = new Parameters();
-		paramsDt.setKey("DT");
-		paramsDt.setValue(deRegister.getDt());
+		paramsCustomerId.setValue(viewDispute.getCustomerid());
+		Parameters paramsStatus = new Parameters();
+		paramsStatus.setKey("STATUS");
+		paramsStatus.setValue(viewDispute.getStatus());
 		Parameters paramsSessionId = new Parameters();
 		paramsSessionId.setKey("SESSIONID");
-		paramsSessionId.setValue(deRegister.getSessionid());
-		ArrayList<Parameters> param = new ArrayList<Parameters>();
+		paramsSessionId.setValue(viewDispute.getSessionid());
+		Parameters paramsDt = new Parameters();
+		paramsDt.setKey("DT");
+		paramsDt.setValue(viewDispute.getDt());
+		
+	ArrayList<Parameters> param = new ArrayList<Parameters>();
+		
 		param.add(paramsSessionId);
+		param.add(paramsStatus);
 		param.add(paramsCustomerId);
 		param.add(paramsDt);
+		
 		
 		Common common = new Common();
 
 		Request request = new Request();
 		request.setParams(param);
 		request.setDeviceId(0);
-		request.setInitiatorId("");
-		request.setService("DeRegister");
+		request.setInitiatorId(""); 
+		request.setService("ViewDisputes");
 
 		
 		
@@ -70,9 +76,6 @@ public class DeRegisterService {
 		       System.out.println("IPADDRESS");
 		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		    }
-		
 	}
-	
-	
 
 }
