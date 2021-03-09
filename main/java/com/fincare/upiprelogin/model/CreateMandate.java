@@ -98,6 +98,15 @@ public class CreateMandate {
 	 @NotNull(message="Should be valid Value")
 	    @NotBlank(message="Should not be blank")
 	private String dt;
+	 public String getDeviceip() {
+		return deviceip;
+	}
+	public void setDeviceip(String deviceip) {
+		this.deviceip = deviceip;
+	}
+	@NotNull(message="Should be valid Value")
+	    @NotBlank(message="Should not be blank")
+	 private String deviceip;
 	public String getCustomerid() {
 		return customerid;
 	}

@@ -35,8 +35,17 @@ public class AddToSpam {
 	 @NotNull(message="Should be valid Value")
 	    @NotBlank(message="Should not be blank")
 	private String dt;
+	 @NotNull(message="Should be valid Value")
+	    @NotBlank(message="Should not be blank")
+	 private String isblock;
 	public String getCustomerid() {
 		return customerid;
+	}
+	public String getIsblock() {
+		return isblock;
+	}
+	public void setIsblock(String isblock) {
+		this.isblock = isblock;
 	}
 	public void setCustomerid(String customerid) {
 		this.customerid = customerid;
