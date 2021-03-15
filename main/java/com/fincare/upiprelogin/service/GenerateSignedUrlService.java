@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fincare.upiprelogin.model.ChangePassword;
 import com.fincare.upiprelogin.model.Common;
+import com.fincare.upiprelogin.model.GenerateSignedUrl;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class ChangePasswordService {
+public class GenerateSignedUrlService {
+	
 	
 	@Autowired
 	private UpiProxy upiProxy;
@@ -26,45 +27,37 @@ public class ChangePasswordService {
 	private HttpServletRequest clientIp;
 	
 	
-	public  String getChangePassword(ChangePassword changePassword) {
+	public String getSignedUrl(GenerateSignedUrl signedUrl) {
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
+		Parameters paramsUrl = new Parameters();
+		paramsUrl.setKey("URL");
+		paramsUrl.setValue(signedUrl.getUrl());
 		
-		Parameters paramsCustomerId = new Parameters();
-		paramsCustomerId.setKey("CUSTOMERID");
-		paramsCustomerId.setValue(changePassword.getCustomerid());
-		
-		Parameters paramsOldp = new Parameters();
-		paramsOldp.setKey("OLDP");
-		paramsOldp.setValue(changePassword.getOldp());
-		Parameters paramsNewp = new Parameters();
-		paramsNewp.setKey("NEWP");
-		paramsNewp.setValue(changePassword.getNewp());
-		Parameters paramsSessionId = new Parameters();
-		paramsSessionId.setKey("SESSIONID");
-		paramsSessionId.setValue(changePassword.getSessionid());
+		Parameters paramsMode = new Parameters();
+		paramsMode.setKey("MODE");
+		paramsMode.setValue(signedUrl.getMode());
 		Parameters paramsDt = new Parameters();
 		paramsDt.setKey("DT");
-		paramsDt.setValue(changePassword.getDt());
+		paramsDt.setValue(signedUrl.getDt());
 		
 		ArrayList<Parameters> param = new ArrayList<Parameters>();
 		
-		param.add(paramsSessionId);
-		param.add(paramsNewp);
-		param.add(paramsCustomerId);
+		param.add(paramsMode);
 		param.add(paramsDt);
-		param.add(paramsOldp);
-		
-		Request request = new Request();
-		request.setParams(param);
-		request.setDeviceId(0);
-		request.setInitiatorId("");
-		request.setService("ChangePassword");
-
+		param.add(paramsUrl);
 		
 		Common common = new Common();
 
+		Request request = new Request();
+		request.setParams(param);
+		request.setDeviceId(0); 
+		request.setInitiatorId("");
+		request.setService("GenerateSignedUrl");
+
+		
+		
 		common.setRequest(request);
 		System.out.println(common.toString());
 		String response = upiProxy.getResponse(headers, common);

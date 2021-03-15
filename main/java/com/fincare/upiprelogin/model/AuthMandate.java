@@ -20,7 +20,13 @@ public class AuthMandate {
 	 @NotNull(message="Should be valid Value")
 	    @NotBlank(message="Should not be blank")
 	private String txntype;
-	 @NotNull(message="Should be valid Value")
+	 public String getTxntype() {
+		return txntype;
+	}
+	public void setTxntype(String txntype) {
+		this.txntype = txntype;
+	}
+	@NotNull(message="Should be valid Value")
 	    @NotBlank(message="Should not be blank")
 	private String txnid;
 	 @NotNull(message="Should be valid Value")

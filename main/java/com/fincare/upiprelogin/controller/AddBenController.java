@@ -6,25 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.fincare.upiprelogin.model.AddBen;
 import com.fincare.upiprelogin.model.AddVPA;
-import com.fincare.upiprelogin.model.UPIValAdd;
+import com.fincare.upiprelogin.service.AddBenService;
 import com.fincare.upiprelogin.service.AddVPAService;
-import com.fincare.upiprelogin.service.UPIValAddService;
 
-public class AddVPAController {
-	
+public class AddBenController {
 
 	@Autowired
-	private AddVPAService addVPAService;
+	private AddBenService addBenService;
 	
-	@PostMapping("/AddVPA")
-	public String getAddVPA( @Valid @RequestBody AddVPA addVPA){
+	@PostMapping("/AddBen")
+	public String getAddBen( @Valid @RequestBody AddBen addBen){
 		
-		String response=addVPAService.getAddVpa(addVPA);
+		String response=addBenService.getAddBen(addBen);
 		
 		return response;
 		 
 	}
-
 
 }

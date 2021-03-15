@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fincare.upiprelogin.model.ChangePassword;
+import com.fincare.upiprelogin.model.CheckAppVersion;
 import com.fincare.upiprelogin.model.Common;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
 
 @Service
-public class ChangePasswordService {
+public class CheckAppVersionService {
+	
 	
 	@Autowired
 	private UpiProxy upiProxy;
@@ -25,46 +26,38 @@ public class ChangePasswordService {
 	@Autowired
 	private HttpServletRequest clientIp;
 	
-	
-	public  String getChangePassword(ChangePassword changePassword) {
+	public String getAppVersion(CheckAppVersion appVersion) {
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
+		Parameters paramsPlatform = new Parameters();
+		paramsPlatform.setKey("PLATFORM");
+		paramsPlatform.setValue(appVersion.getPlatform());
 		
-		Parameters paramsCustomerId = new Parameters();
-		paramsCustomerId.setKey("CUSTOMERID");
-		paramsCustomerId.setValue(changePassword.getCustomerid());
-		
-		Parameters paramsOldp = new Parameters();
-		paramsOldp.setKey("OLDP");
-		paramsOldp.setValue(changePassword.getOldp());
-		Parameters paramsNewp = new Parameters();
-		paramsNewp.setKey("NEWP");
-		paramsNewp.setValue(changePassword.getNewp());
-		Parameters paramsSessionId = new Parameters();
-		paramsSessionId.setKey("SESSIONID");
-		paramsSessionId.setValue(changePassword.getSessionid());
 		Parameters paramsDt = new Parameters();
 		paramsDt.setKey("DT");
-		paramsDt.setValue(changePassword.getDt());
+		paramsDt.setValue(appVersion.getDt());
+		Parameters paramsVer = new Parameters();
+		paramsVer.setKey("APPVERSION");
+		paramsVer.setValue(appVersion.getAppversion());
 		
 		ArrayList<Parameters> param = new ArrayList<Parameters>();
 		
-		param.add(paramsSessionId);
-		param.add(paramsNewp);
-		param.add(paramsCustomerId);
-		param.add(paramsDt);
-		param.add(paramsOldp);
 		
-		Request request = new Request();
-		request.setParams(param);
-		request.setDeviceId(0);
-		request.setInitiatorId("");
-		request.setService("ChangePassword");
-
+		param.add(paramsDt);
+		param.add(paramsPlatform);
+		param.add(paramsVer);
 		
 		Common common = new Common();
 
+		Request request = new Request();
+		request.setParams(param);
+		request.setDeviceId(0); 
+		request.setInitiatorId("");
+		request.setService("CheckAppVersion");
+
+		
+		
 		common.setRequest(request);
 		System.out.println(common.toString());
 		String response = upiProxy.getResponse(headers, common);
