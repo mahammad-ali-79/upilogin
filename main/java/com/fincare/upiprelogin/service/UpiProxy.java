@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fincare.upiprelogin.model.Common;
+import com.fincare.upiprelogin.model.Response;
 
-@FeignClient(name="upiUrl",url="${upi.url:https://103.210.75.138/services/unt}")
+@FeignClient(name="upi.url",url="${upi.url:https://103.210.75.138/services/unt}")
 public interface UpiProxy {
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public String getResponse(@RequestHeader Map<String,String> headerMap,@RequestBody Common common);
+	public Response getResponse(@RequestHeader Map<String,String> headerMap,@RequestBody Common common);
 
 }

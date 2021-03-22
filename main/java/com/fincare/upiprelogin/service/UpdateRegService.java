@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.Request;
+import com.fincare.upiprelogin.model.Response;
 import com.fincare.upiprelogin.model.UpdateReg;
 
 @Service
@@ -18,8 +22,12 @@ public class UpdateRegService {
 	
 	@Autowired
 	private UpiProxy upiProxy;
+	@Value("${upi.logType:Error}")
+	private String errorLog;
+	 private  final Logger logger = LoggerFactory.getLogger(this.getClass());
+	 
 	
-	public String getUpdateReg(UpdateReg updateReg) {
+	public Response getUpdateReg(UpdateReg updateReg) {
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
@@ -102,9 +110,13 @@ public class UpdateRegService {
 
 		common.setRequest(request);
 		System.out.println(common.toString());
-		String response = upiProxy.getResponse(headers, common);
-
-		return response;
+		Response response = upiProxy.getResponse(headers, common);
+		// System.out.println(response);
+    	if(errorLog.equals("Error")) {
+ 		//logger.info("OutPut Response:",response);
+ 		logger.error("OutPut Response:",response);
+    	}
+    	 return response;
 	}
 
 }

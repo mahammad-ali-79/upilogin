@@ -7,13 +7,17 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fincare.upiprelogin.model.Common;
 import com.fincare.upiprelogin.model.Parameters;
 import com.fincare.upiprelogin.model.PendingCollect;
 import com.fincare.upiprelogin.model.Request;
+import com.fincare.upiprelogin.model.Response;
 
 @Service
 public class PendingCollectService {
@@ -21,13 +25,12 @@ public class PendingCollectService {
 	
 	@Autowired
 	private UpiProxy upiProxy;
-	@Autowired
-	private ResponseService responseService;
-	@Autowired
-	private HttpServletRequest clientIp;
+	@Value("${upi.logType:Error}")
+	private String errorLog;
+	 private  final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	
-	public String getPendingCollect(PendingCollect pendingCollect) {
+	public Response getPendingCollect(PendingCollect pendingCollect) {
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json"); 
@@ -61,19 +64,12 @@ public class PendingCollectService {
 		
 		common.setRequest(request);
 		System.out.println(common.toString());
-		String response = upiProxy.getResponse(headers, common);
-		 String finalResponse=responseService.getResponse(response);
-		 String xForwardedForHeader = clientIp.getHeader("X-Forwarded-For");
-		    if (xForwardedForHeader == null) {
-		    	System.out.println(clientIp.getRemoteAddr().toString());
-		    	 System.out.println(clientIp.getRemoteAddr().toString());
-		    	 
-		        return clientIp.getRemoteAddr();
-		        
-		    } else { 
-		       System.out.println("IPADDRESS");
-		        return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
-		    }
-		
+		Response response = upiProxy.getResponse(headers, common);
+		// System.out.println(response);
+    	if(errorLog.equals("Error")) {
+ 		//logger.info("OutPut Response:",response);
+ 		logger.error("OutPut Response:",response);
+    	}
+    	 return response;
 	}
 }

@@ -2,11 +2,23 @@ package com.fincare.upiprelogin.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Response {
 	
+	
+	
 	private String serv;
+	
 	private List<Parameters> op;
+	
 	private String error;
+	
 	private String errors;
 	public String getServ() {
 		return serv;
@@ -33,5 +45,5 @@ public class Response {
 	public void setErrors(String errors) {
 		this.errors = errors;
 	}
-
+	
 }

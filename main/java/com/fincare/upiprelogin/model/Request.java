@@ -2,11 +2,31 @@ package com.fincare.upiprelogin.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class Request {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@JsonIgnore
+	private long id;
+	@Column(name="request", columnDefinition = "LONGTEXT")
 	private List<Parameters> params;
+	@JsonIgnore
+	@Column
 	private int deviceId;
+	@JsonIgnore
+	@Column
 	private String initiatorId;
+	@JsonIgnore
+	@Column
 	private String service;
 	
 	public List<Parameters> getParams() {
@@ -38,6 +58,12 @@ public class Request {
 	public String toString() {
 		return "{params=" + params + ", deviceId=" + deviceId + ", initiatorId=" + initiatorId + ", service="
 				+ service + "}";
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	

@@ -1,0 +1,38 @@
+spring:
+    application:
+        name: UPIAquirer
+    datasource:
+     url: jdbc:mysql://${db.host:localhost}:${db.port:3306}/upiaquirer?createDatabaseIfNotExist=true
+     username: ${db.username:root}
+     password: ${db.password:System@123}
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     initialization-mode: always
+    jpa:
+      hibernate:
+        ddl-auto: update
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      properties:
+        hibernate:
+         show_sql: false 
+         format_sql: false        
+security:
+   oauth2:
+     resource:
+       service-id: OAuthServer
+       token-info-uri: http://localhost:9191/oauth/check_token
+       loadBalanced: true    
+     client: 
+       client-id: ${oauthcred.username:fincare_user}    
+       client-secret: ${oauthcred.pass:System@123}   
+eureka:
+  instance:
+    hostname: localhost
+  client:
+      register-with-eureka: true
+      fetch-registry: true
+      service-url: 
+        defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+      
+        
+              
